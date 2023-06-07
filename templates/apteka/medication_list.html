@@ -1,0 +1,9 @@
+<!-- medication_list.html -->
+
+{% for medication in medications %}
+  <div>
+    <h3>{{ medication.apteka_medication }}</h3>
+    <p>Price: {{ medication.apteka_price }}</p>
+    <p>Description: {{ medication.apteka_description }}</p>
+  </div>
+{% endfor %}
