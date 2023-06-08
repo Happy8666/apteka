@@ -35,7 +35,7 @@ def login(request):
             return redirect('main_menu')
         else:
             # Если учетные данные неверны, отображаем сообщение об ошибке
-            error_message = 'Неверное имя пользователя или пароль'
+            error_message = 'Неверное имя пользователя или пароль!'
             return render(request, 'login.html', {'error_message': error_message})
     
     return render(request, 'login.html')

@@ -1,40 +1,95 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
+
 <head>
-    {% load static %}
-    <title>Главное меню</title>
-    <style>
-        body {
-            background-image: url("{% static 'images/image3.jpg' %}");
-            background-repeat: no-repeat center center fixed;
-            background-size: cover;
-        }
-        .container {
-            text-align: center;
-            padding-top: 100px;
-        }
-        .menu-button {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            background-color: #ff5e5e;
-            color: #1b1b1b;
-            text-decoration: none;
-        }
-    </style>
 </head>
+
+<style>
+    body {
+        background-image: url("{% static 'images/image3.jpg' %}");
+        background-repeat: no-repeat center center fixed;
+        background-size: cover;
+    }
+
+
+    .flex {
+        min-height: 50vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-container {
+        display: block;
+        width: 270px; /* Adjust the width to fit your desired layout */
+    }
+
+    .container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Высота контейнера на весь экран */
+}
+
+
+    a.btn {
+        color: #48b7fc;
+        text-decoration: none;
+        -webkit-transition: 0.3s all else;
+        transition: 0.3s ease all;
+    }
+
+    a.btn:hover {
+        color: #fff;
+    }
+
+    .btn {
+        font-size: 18px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        display: inline-block;
+        text-align: center;
+        width: 220px; /* Adjust the width to fit your desired button size */
+        font-weight: bold;
+        padding: 14px 0px;
+        border: 3px solid #48b7fc;
+        border-radius: 2px;
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .btn:before {
+        -webkit-transition: 0.5s all ease;
+        transition: 0.5s all ease;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        right: 50%;
+        bottom: 0;
+        opacity: 0;
+        content: "";
+        background-color: #48b7fc;
+        z-index: -2;
+    }
+
+    .btn:hover::before {
+        -webkit-transition: 0.5s all ease;
+        transition: 0.5s all ease;
+        left: 0;
+        right: 0;
+        opacity: 1;
+    }
+</style>
+
 <body>
-    <div class="container">
-        <h1>Главное меню</h1>
-            <a href="#" class="menu-button">
-                Список товаров
-            </a>
-            <a href="{% url 'customer_list' %}" class="menu-button">Список клиентов</a>
-            <a href="{% url 'order_list' %}" class="menu-button">Управление заказами</a>
-            <a href="{% url 'InventoryManager' %}" class="menu-button">Управление складом</a>
-            <!-- Добавьте другие кнопки здесь -->
+    <div class="container-wrapper">
+        <div class="btn-container">
+            <a href="" class="btn">Управление складом</a>
+            <a href="" class="btn">Управление заказами</a>
+            <a href="" class="btn">Управление клиентами</a>
         </div>
     </div>
 </body>
-</html>
 
+</html>
