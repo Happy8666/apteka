@@ -5,13 +5,13 @@
     <title>Главное меню</title>
     <style>
         body {
-            background-image: url("{% static 'images/image1.jpg' %}");
+            background-image: url("{% static 'images/image3.jpg' %}");
             background-repeat: no-repeat center center fixed;
             background-size: cover;
         }
         .container {
             text-align: center;
-            padding-top: 400px;
+            padding-top: 100px;
         }
         .menu-button {
             display: inline-block;
@@ -26,8 +26,9 @@
 <body>
     <div class="container">
         <h1>Главное меню</h1>
-        <div class="button-container">
-            <a href="{% url 'medication_list' %}" class="menu-button">Список товаров</a>
+            <a href="#" class="menu-button">
+                Список товаров
+            </a>
             <a href="{% url 'customer_list' %}" class="menu-button">Список клиентов</a>
             <a href="{% url 'order_list' %}" class="menu-button">Управление заказами</a>
             <a href="{% url 'InventoryManager' %}" class="menu-button">Управление складом</a>
