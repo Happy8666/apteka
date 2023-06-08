@@ -1,9 +1,53 @@
-<!-- medication_list.html -->
+{% load static %}
 
-{% for medication in medications %}
-  <div>
-    <h3>{{ medication.apteka_medication }}</h3>
-    <p>Price: {{ medication.apteka_price }}</p>
-    <p>Description: {{ medication.apteka_description }}</p>
-  </div>
-{% endfor %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список товаров</title>
+    <link rel="stylesheet" href="{% static 'css/medication_list.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Список товаров</h1>
+        <table>
+            <tr>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Действия</th>
+            </tr>
+        {% for medication in medications %}
+            <tr>
+                <td>{{ medication.name }}</td>
+                <td>{{ medication.price }}</td>
+                <td class="medication-actions">
+                    <a href="{% url 'edit_medication' medication.id %}" class="btn btn-primary">Редактировать</a>
+                    <a href="{% url 'delete_medication' medication.id %}" class="btn btn-danger">Удалить</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">Нет доступных товаров.</td>
+            </tr>
+        {% endfor %}
+        </table>
+        <div class="pagination">
+            {% if medications.has_previous %}
+                <a href="?page=1" class="page-link">Первая</a>
+                <a href="?page={{ medications.previous_page_number }}" class="page-link">&lt;</a>
+            {% endif %}
+            {% for page in medications.paginator.page_range %}
+                {% if medications.number == page %}
+                    <a href="?page={{ page }}" class="page-link active">{{ page }}</a>
+                {% else %}
+                    <a href="?page={{ page }}" class="page-link">{{ page }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if medications.has_next %}
+                <a href="?page={{ medications.next_page_number }}" class="page-link">&gt;</a>
+                <a href="?page={{ medications.paginator.num_pages }}" class="page-link">Последняя</a>
+            {% endif %}
+        </div>
+        <a href="{% url 'add_medication' %}" class="btn btn-success">Добавить товар</a>
+    </div>
+</body>
+</html>

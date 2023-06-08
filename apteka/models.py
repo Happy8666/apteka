@@ -18,4 +18,5 @@ class Order(models.Model):
     quantity = models.PositiveIntegerField()
     # Другие поля для заказа
 
+
 # Другие модели, например, для склада и поставок
