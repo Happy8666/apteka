@@ -7,7 +7,8 @@
 
 <style>
     body {
-        background-image: url("{% static 'images/image3.jpg' %}");
+        background-image: url("{% static 'images/vhod.jpg' %}");
+        filter: brightness(0.8);
         background-repeat: no-repeat center center fixed;
         background-size: cover;
     }
@@ -21,20 +22,24 @@
     }
 
     .btn-container {
-        display: block;
-        width: 270px; /* Adjust the width to fit your desired layout */
+        position: relative;
+        top: -20px;
+        left: 580px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px; /* Adjust the width to fit your desired layout */
     }
 
     .container-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 100vh; /* Высота контейнера на весь экран */
 }
 
 
     a.btn {
-        color: #48b7fc;
+        color: #000000;
         text-decoration: none;
         -webkit-transition: 0.3s all else;
         transition: 0.3s ease all;
@@ -53,7 +58,7 @@
         width: 220px; /* Adjust the width to fit your desired button size */
         font-weight: bold;
         padding: 14px 0px;
-        border: 3px solid #48b7fc;
+        border: 3px solid #000000;
         border-radius: 2px;
         position: relative;
         margin-bottom: 10px;
@@ -69,7 +74,7 @@
         bottom: 0;
         opacity: 0;
         content: "";
-        background-color: #48b7fc;
+        background-color: #000000;
         z-index: -2;
     }
 
