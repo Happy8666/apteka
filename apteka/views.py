@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.generic.base import View
-from .models import Medication, Customer, Order
+from .models import Medication, Customer, CustomerForm, Order
 
 def medication_list(request):
     medications = Medication.objects.all()
@@ -39,52 +39,23 @@ def login(request):
             return render(request, 'login.html', {'error_message': error_message})
     
     return render(request, 'login.html')
+
+def success(request):
+    return render(request, 'apteka/success.html')
+
 # Другие представления для управления складом, поставками и т.д.
 
-class InventoryManager(View):
-    def get(self, request):
-        medications = Medication.objects.all()
-        return render(request, 'apteka/medication_list.html', {'medications': medications})
+def sell_product(request):
+    if request.method == 'POST':
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            # Создаем новый объект Customer с данными из формы
+            customer = form.save()
 
-    def post(self, request):
-        pass
+            # Другая логика для обработки продажи товара
 
-    def add_medication(self, request):
-        if request.method == 'POST':
-            # Get data from the form and create a new Medication object
-            # ...
+            return redirect('success')  # Перенаправление на страницу успешной продажи
+    else:
+        form = CustomerForm()
 
-            # Save the object to the database
-            # ...
-
-            # Redirect to the medication list page
-            return redirect('medication_list')
-
-        return render(request, 'add_medication.html')
-
-    def edit_medication(self, request, medication_id):
-        medication = Medication.objects.get(id=medication_id)
-
-        if request.method == 'POST':
-            # Получить данные из формы и обновить объект Medication
-            # ...
-
-            # Сохранить объект в базе данных
-            # ...
-
-            # Перенаправить на страницу со списком товаров
-            return redirect('medication_list')
-        
-        return render(request, 'apteka/edit_medication.html', {'medication': medication})
-
-    def delete_medication(self, request, medication_id):
-        medication = Medication.objects.get(id=medication_id)
-
-        if request.method == 'POST':
-            # Удалить объект Medication из базы данных
-            # ...
-
-            # Перенаправить на страницу со списком товаров
-            return redirect('medication_list')
-        
-        return render(request, 'apteka/delete_medication.html', {'medication': medication})
+    return render(request, 'sell_product.html', {'form': form})

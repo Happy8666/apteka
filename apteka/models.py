@@ -1,16 +1,23 @@
 from django.db import models
+from django import forms
 
 class Medication(models.Model):
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=8, decimal_places=2)
+    quantity = models.PositiveIntegerField()
     def __str__(self):
         return self.name
     # Другие поля для лекарства
 
 class Customer(models.Model):
     name = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
+    numberPhone = models.CharField(max_length=100)
     # Другие поля для клиента
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = '__all__'
 
 class Order(models.Model):
     medication = models.ForeignKey(Medication, on_delete=models.CASCADE)
