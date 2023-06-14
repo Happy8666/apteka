@@ -1,81 +1,104 @@
-{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Продать товар</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: url("apteka/static/images/mainmenu.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            flex-basis: 48%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
-
-<style>
-    body {
-        background-image: url("{% static 'images/vhod.jpg' %}");
-        filter: brightness(0.8);
-        background-repeat: no-repeat center center fixed;
-        background-size: cover;
-    }
-
-
-    .form-container {
-    width: 400px;
-    margin: 0 auto;
-}
-
-.form-container form {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-container label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-container select,
-.form-container input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-}
-
-.form-container button[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.form-container button[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-
-
-
-
-</style>
 <body>
-    <div class="form-container">
-        <form method="post" action="{% url 'sell_product' %}">
-            {% csrf_token %}
-            <label for="search">Поиск товара:</label>
+    <a href="{% url 'main_menu' %}" class="btn">Вернуться в главное меню</a>
+    <h1>Продать товар</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        
+        {% for form in formset %}
+        <div class="form-row">
+            {{ form.medication_id.errors }}
+            <div class="form-group col-md-6">
+                <label for="{{ form.medication_id.id_for_label }}">{{ form.medication_id.label }}</label>
+                {{ form.medication_id }}
+            </div>
             
-            <label for="medication">Выберите медикамент:</label>
-            <select name="medication_id" id="medication">
-                {% for medication in medications %}
-                <option value="{{ medication.id }}">{{ medication.name }}</option>
-                {% endfor %}
-            </select>
-            <br>
-            <label for="quantity">Количество:</label>
-            <input type="number" name="quantity" id="quantity" min="1" value="1">
-            <br>
-            <button type="submit">Продать товар</button>
-        </form>
-    </div>
+            {{ form.quantity.errors }}
+            <div class="form-group col-md-6">
+                <label for="{{ form.quantity.id_for_label }}">{{ form.quantity.label }}</label>
+                {{ form.quantity }}
+            </div>
+        </div>
+        {% endfor %}
+        
+        <button type="submit">Продать</button>
+    </form>
 </body>
 </html>

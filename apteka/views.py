@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
-from .models import Medication, Customer, CustomerForm, Order
+from django.forms import formset_factory
+from .forms import SearchForm
+from .models import Medication, Customer, CustomerForm, Order, SellProductForm
 
 def medication_list(request):
     medications = Medication.objects.all()
@@ -41,21 +45,31 @@ def login(request):
     return render(request, 'login.html')
 
 def success(request):
-    return render(request, 'apteka/success.html')
+    return render(request, 'success.html')
 
 # Другие представления для управления складом, поставками и т.д.
 
 def sell_product(request):
+    SearchFormSet = formset_factory(SearchForm, extra=1)
+    
     if request.method == 'POST':
-        form = CustomerForm(request.POST)
-        if form.is_valid():
-            # Создаем новый объект Customer с данными из формы
-            customer = form.save()
-
-            # Другая логика для обработки продажи товара
-
-            return redirect('success')  # Перенаправление на страницу успешной продажи
+        formset = SearchFormSet(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                if form.cleaned_data.get('quantity') > 0:
+                    medication_id = form.cleaned_data.get('medication_id')
+                    quantity = form.cleaned_data.get('quantity')
+                    medication = Medication.objects.get(id=medication_id)
+                    # выполнение логики продажи товара
+                    # ...
+            return redirect('success')
     else:
-        form = CustomerForm()
+        formset = SearchFormSet()
 
-    return render(request, 'sell_product.html', {'form': form})
+    return render(request, 'sell_product.html', {'formset': formset})
+
+def autocomplete(request):
+    term = request.GET.get('term', '')
+    medications = Medication.objects.filter(name__icontains=term)[:10]  # Получить до 10 предложений
+    results = [medication.name for medication in medications]
+    return JsonResponse(results, safe=False)

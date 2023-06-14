@@ -1,13 +1,40 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Успешная продажа</title>
+    <title>Подтверждение продажи</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: url("static/images/mainmenu.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Успешная продажа</h2>
-    <p>Товар успешно продан!</p>
-    <a href="{% url 'sell_product' %}" class="btn">Продать еще товар</a>
+    <a href="{% url 'main_menu' %}" class="btn">Вернуться в главное меню</a>
+    <h2>Товар успешно продан!</h2>
+    <!-- Здесь вы можете добавить дополнительную информацию о продаже, если необходимо -->
 </body>
 </html>

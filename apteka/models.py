@@ -26,4 +26,10 @@ class Order(models.Model):
     # Другие поля для заказа
 
 
+class SellProductForm(forms.Form):
+    search = forms.CharField(max_length=100)
+    medication_id = forms.IntegerField()
+    quantity = forms.IntegerField(min_value=1)
+
+
 # Другие модели, например, для склада и поставок
