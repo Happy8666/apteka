@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
 from django.forms import formset_factory
-from .forms import SearchForm
+from .forms import SearchForm, OrderForm, SellProductFormSet
 from .models import Medication, Customer, CustomerForm, Order, SellProductForm
 
 def medication_list(request):
@@ -15,9 +15,48 @@ def customer_list(request):
     customers = Customer.objects.all()
     return render(request, 'customer_list.html', {'customers': customers})
 
+def delete_customer(request):
+    if request.method == 'POST':
+        customer_id = request.POST.get('customer_id')
+        try:
+            customer = Customer.objects.get(id=customer_id)
+            customer.delete()
+            return redirect('customer_list')
+        except Customer.DoesNotExist:
+            pass
+    return redirect('customer_list')
+
 def order_list(request):
     orders = Order.objects.all()
     return render(request, 'order_list.html', {'orders': orders})
+
+def add_item(request):
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        item_id = request.POST.get('item_id')
+        quantity = request.POST.get('quantity')
+
+        try:
+            order = Order.objects.get(id=order_id)
+            medication = Medication.objects.get(id=item_id)
+            order.items.create(medication=medication, quantity=quantity)
+        except (Order.DoesNotExist, Medication.DoesNotExist):
+            pass
+
+    return redirect('order_list')
+
+def delete_order(request, order_id):
+    try:
+        order = Order.objects.get(id=order_id)
+        order.delete()
+    except Order.DoesNotExist:
+        pass
+
+    return redirect('order_list')
+
+def create_order(request):
+    # Ваша логика создания заказа
+    return render(request, 'order/create_order.html')
 
 def main_menu(request):
     # Проверка аутентификации пользователя
